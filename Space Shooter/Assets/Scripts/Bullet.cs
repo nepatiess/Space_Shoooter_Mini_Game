@@ -22,14 +22,14 @@ public class Bullet : MonoBehaviour
         // Düþmana çarptýysa
         if (collision.CompareTag("Enemy"))
         {
-            /*DÜZELECEK
+           
             // Düþmana hasar ver
             Enemy enemy = collision.GetComponent<Enemy>();
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);
             }
-            */
+            
 
             // Mermiyi yok et
             Destroy(gameObject);

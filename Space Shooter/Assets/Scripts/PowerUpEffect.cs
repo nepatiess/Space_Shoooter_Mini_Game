@@ -3,7 +3,6 @@ using UnityEngine;
 public class PowerUpEffect : MonoBehaviour
 {
     private PlayerController playerController;
-
     private bool rapidFireActive = false;
     private float rapidFireTimer = 0f;
     private float originalFireRate;

@@ -60,13 +60,13 @@ public class Enemy : MonoBehaviour
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         }
 
-        /*DÜZENLENECEK
+        
         // Skoru artýr
         if (GameManager.Instance != null)
         {
             GameManager.Instance.AddScore(scoreValue);
         }
-        */
+        
 
         // Düþmaný yok et
         Destroy(gameObject);

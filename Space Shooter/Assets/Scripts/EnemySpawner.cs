@@ -22,9 +22,8 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-        /* DÜZELECEK
         // Oyun devam ediyorsa spawn yap
-        if (GameManager.Instance != null && GameManager.Instance.IsGameActive()) */
+        if (GameManager.Instance != null && GameManager.Instance.IsGameActive()) 
         {
             gameTime += Time.deltaTime;
 

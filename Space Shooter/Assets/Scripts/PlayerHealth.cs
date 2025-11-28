@@ -79,13 +79,13 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        /* DÜZELECEK
+       
         // Oyunu bitir
         if (GameManager.Instance != null)
         {
             GameManager.Instance.GameOver();
         }
-        */
+        
 
         // Oyuncuyu yok et
         Destroy(gameObject);
@@ -93,7 +93,7 @@ public class PlayerHealth : MonoBehaviour
 
     void UpdateUI()
     {
-        /* DÜZELECEK
+        /*
         if (UIManager.Instance != null)
         {
             UIManager.Instance.UpdateHealth(currentHealth, maxHealth);

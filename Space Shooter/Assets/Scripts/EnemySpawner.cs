@@ -9,58 +9,73 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private float difficultyIncreaseRate = 0.05f;
     [SerializeField] private float minSpawnRate = 0.5f;
-    [SerializeField] private float difficultyTimer = 30f; // Her 30 saniyede zorluk artar
+    [SerializeField] private float difficultyTimer = 30f;
 
-    private float nextSpawnTime = 0f;
-    private float gameTime = 0f;
+    private float spawnTimer = 0f;
+    private float difficultyTimerCounter = 0f;
     private float currentSpawnRate;
 
-    void Start()
+    private void Start()
     {
         currentSpawnRate = spawnRate;
-    }
 
-    void Update()
-    {
-        // Oyun devam ediyorsa spawn yap
-        if (GameManager.Instance != null && GameManager.Instance.IsGameActive()) 
+        // Prefab dizisi boþsa hata bas — Unity 6’da null check önemli
+        if (enemyPrefabs == null || enemyPrefabs.Length == 0)
         {
-            gameTime += Time.deltaTime;
-
-            // Zorluk artýþý
-            if (gameTime >= difficultyTimer)
-            {
-                IncreaseDifficulty();
-                gameTime = 0f;
-            }
-
-            // Düþman spawn
-            if (Time.time >= nextSpawnTime)
-            {
-                SpawnEnemy();
-                nextSpawnTime = Time.time + currentSpawnRate;
-            }
+            Debug.LogError("EnemySpawner: enemyPrefabs boþ, spawn yapamazsýn!");
         }
     }
 
-    void SpawnEnemy()
+    private void Update()
     {
+        // GameManager null ise veya oyun kapalý ise hiçbir þey yapma
+        if (GameManager.Instance == null || !GameManager.Instance.IsGameActive())
+            return;
 
-        // Rastgele pozisyon
+        // Timers
+        spawnTimer += Time.deltaTime;
+        difficultyTimerCounter += Time.deltaTime;
+
+        // Zorluk artýþý
+        if (difficultyTimerCounter >= difficultyTimer)
+        {
+            IncreaseDifficulty();
+            difficultyTimerCounter = 0f;
+        }
+
+        // Spawn zamaný geldiyse
+        if (spawnTimer >= currentSpawnRate)
+        {
+            SpawnEnemy();
+            spawnTimer = 0f;
+        }
+    }
+
+    private void SpawnEnemy()
+    {
+        if (enemyPrefabs.Length == 0)
+            return;
+
         float randomX = Random.Range(-spawnRangeX, spawnRangeX);
         Vector3 spawnPosition = new Vector3(randomX, spawnY, 0f);
 
-        // Rastgele düþman seç
-        int randomIndex = Random.Range(0, enemyPrefabs.Length);
-        GameObject selectedEnemy = enemyPrefabs[randomIndex];
+        // Enemy seçme
+        int index = Random.Range(0, enemyPrefabs.Length);
+        GameObject prefab = enemyPrefabs[index];
 
-        // Düþman oluþtur
-        Instantiate(selectedEnemy, spawnPosition, Quaternion.identity);
+        if (prefab != null)
+        {
+            Instantiate(prefab, spawnPosition, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogWarning("EnemySpawner: enemyPrefabs içinde null bir prefab var.");
+        }
     }
 
-    void IncreaseDifficulty()
+    private void IncreaseDifficulty()
     {
         currentSpawnRate = Mathf.Max(minSpawnRate, currentSpawnRate - difficultyIncreaseRate);
-        
+        // Debug.Log($"Yeni spawn rate: {currentSpawnRate}");
     }
 }

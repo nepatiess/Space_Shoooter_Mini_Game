@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 8f;
+    [SerializeField] private float moveSpeed = 8f; // Hï¿½zï¿½ artï¿½rdï¿½m
     [SerializeField] private float minX = -8f;
     [SerializeField] private float maxX = 8f;
     [SerializeField] private float minY = -4f;
@@ -17,13 +17,13 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
-        // Rigidbody2D ayarlarýný optimize et
-        rb.gravityScale = 0f; // Yerçekimini kapat
-        rb.linearDamping = 0f; // Linear Drag'i sýfýrla (önemli!)
-        rb.angularDamping = 0f; // Angular Drag'i sýfýrla
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation; // Dönmeyi engelle
+        // Rigidbody2D ayarlarï¿½nï¿½ optimize et
+        rb.gravityScale = 0f; // Yerï¿½ekimini kapat
+        rb.linearDamping = 0f; // Linear Drag'i sï¿½fï¿½rla (ï¿½nemli!)
+        rb.angularDamping = 0f; // Angular Drag'i sï¿½fï¿½rla
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation; // Dï¿½nmeyi engelle
 
-        // Eðer firePoint atanmamýþsa, gemi pozisyonunu kullan
+        // Eï¿½er firePoint atanmamï¿½ï¿½sa, gemi pozisyonunu kullan
         if (firePoint == null)
         {
             firePoint = transform;
@@ -35,34 +35,34 @@ public class PlayerController : MonoBehaviour
         HandleShooting();
     }
 
-    void FixedUpdate() // Fizik iþlemleri için FixedUpdate kullan
+    void FixedUpdate() // Fizik iï¿½lemleri iï¿½in FixedUpdate kullan
     {
         HandleMovement();
     }
 
     void HandleMovement()
     {
-        // Input al (WASD veya Ok tuþlarý)
+        // Input al (WASD veya Ok tuï¿½larï¿½)
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
 
-        // Hareket vektörü oluþtur
+        // Hareket vektï¿½rï¿½ oluï¿½tur
         Vector2 movement = new Vector2(moveX, moveY).normalized;
 
-        // Yeni pozisyon hesapla - FixedUpdate için Time.fixedDeltaTime kullan
+        // Yeni pozisyon hesapla - FixedUpdate iï¿½in Time.fixedDeltaTime kullan
         Vector2 newPosition = rb.position + movement * moveSpeed * Time.fixedDeltaTime;
 
-        // Sýnýrlar içinde tut
+        // Sï¿½nï¿½rlar iï¿½inde tut
         newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
         newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
 
-        // Pozisyonu güncelle
+        // Pozisyonu gï¿½ncelle
         rb.MovePosition(newPosition);
     }
 
     void HandleShooting()
     {
-        // Space tuþu veya Sol Mouse tuþu
+        // Space tuï¿½u veya Sol Mouse tuï¿½u
         if ((Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0)) && Time.time >= nextFireTime)
         {
             Shoot();
@@ -75,6 +75,10 @@ public class PlayerController : MonoBehaviour
         if (bulletPrefab != null)
         {
             Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogWarning("Bullet Prefab atanmamï¿½ï¿½!");
         }
     }
 }

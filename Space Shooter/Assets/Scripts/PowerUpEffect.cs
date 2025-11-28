@@ -6,7 +6,7 @@ public class PowerUpEffect : MonoBehaviour
     private bool rapidFireActive = false;
     private float rapidFireTimer = 0f;
     private float originalFireRate;
-    [SerializeField] private float rapidFireMultiplier = 0.5f;
+    //[SerializeField] private float rapidFireMultiplier = 0.5f;
 
     void Start()
     {
